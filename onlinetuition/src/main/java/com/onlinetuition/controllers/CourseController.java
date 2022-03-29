@@ -2,6 +2,7 @@ package com.onlinetuition.controllers;
 
 import com.onlinetuition.models.Course;
 import com.onlinetuition.repositories.CourseRepository;
+import com.onlinetuition.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +19,24 @@ Service to retrieve details of a course using course id (GET /courses/{course_id
 public class CourseController {
 
     @Autowired
-    private CourseRepository courseRepository;
+    private CourseService courseService;
 
     @PostMapping
     public Course add(@RequestBody final Course course){
-        return courseRepository.saveAndFlush(course);
+        return courseService.add(course);
     }
 
     @RequestMapping("/list")
     @GetMapping
     public List<Course> list(){
-        return courseRepository.findAll();
+        return courseService.list();
 
     }
 
     @RequestMapping("{id}")
     @GetMapping()
     public Course getById(@PathVariable Integer id){
-        return courseRepository.getById(id);
+        return courseService.getById(id);
     }
 
 }
