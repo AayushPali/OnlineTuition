@@ -1,5 +1,6 @@
 package com.onlinetuition.controllers;
 
+import com.onlinetuition.exceptions.CourseNotFoundException;
 import com.onlinetuition.models.Course;
 import com.onlinetuition.repositories.CourseRepository;
 import com.onlinetuition.services.CourseService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.persistence.Id;
 import java.util.List;
 /*
 Service to add a course. (POST /courses)
@@ -36,7 +38,7 @@ public class CourseController {
     @RequestMapping("{id}")
     @GetMapping()
     public Course getById(@PathVariable Integer id){
-        return courseService.getById(id);
+            return courseService.getById(id);
     }
 
 }
