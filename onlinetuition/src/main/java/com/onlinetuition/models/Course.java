@@ -14,6 +14,10 @@ public class Course {
     private String description;
     private String duration;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Course(){
 
     }
@@ -27,10 +31,6 @@ public class Course {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {

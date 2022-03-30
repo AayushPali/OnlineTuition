@@ -1,5 +1,6 @@
 package com.onlinetuition.exceptions;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +16,11 @@ public class ExceptionController {
 
     @ExceptionHandler(CourseNotFoundException.class)
     public ResponseEntity<Object> handleCourseNotFoundException(CourseNotFoundException exception, WebRequest webRequest){
-        return new ResponseEntity<>(exception, HttpStatus.NOT_FOUND);
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", exception.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+
 
 }

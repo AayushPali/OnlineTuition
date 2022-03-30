@@ -23,11 +23,6 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping
-    public Course add(@RequestBody final Course course){
-        return courseService.add(course);
-    }
-
     @RequestMapping("/list")
     @GetMapping
     public List<Course> list(){
@@ -36,9 +31,20 @@ public class CourseController {
     }
 
     @RequestMapping("{id}")
-    @GetMapping()
+    @GetMapping
     public Course getById(@PathVariable Integer id){
-            return courseService.getById(id);
+        return courseService.getById(id);
+    }
+
+    @PostMapping
+    public Course add(@RequestBody final Course course){
+        return courseService.add(course);
+    }
+
+    @RequestMapping("remove/{id}")
+    @DeleteMapping
+    public void deleteById(@PathVariable int id){
+        courseService.deleteById(id);
     }
 
 }
