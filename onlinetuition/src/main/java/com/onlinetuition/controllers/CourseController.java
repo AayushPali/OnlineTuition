@@ -5,6 +5,7 @@ import com.onlinetuition.models.Course;
 import com.onlinetuition.repositories.CourseRepository;
 import com.onlinetuition.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -37,12 +38,18 @@ public class CourseController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Course add(@RequestBody final Course course){
         return courseService.add(course);
     }
 
-    @RequestMapping("remove/{id}")
-    @DeleteMapping
+    @RequestMapping(method = RequestMethod.PATCH)
+    public Course update(@RequestBody Course course){
+        return courseService.update(course);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    //@DeleteMapping value = "remove/{id}"
     public void deleteById(@PathVariable int id){
         courseService.deleteById(id);
     }
