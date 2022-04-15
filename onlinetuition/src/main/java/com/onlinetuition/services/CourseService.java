@@ -21,6 +21,14 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
+    /*public CourseService(CourseRepository cr){
+        this.courseRepository = cr;
+    }
+
+    public CourseRepository returnRepository(){
+        return this.courseRepository;
+    }*/
+
     public List<Course> list() {
         var listOfCourses = (List<Course>) courseRepository.findAll();
         if (listOfCourses.isEmpty()) {
@@ -37,11 +45,11 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public Course update(Course course){
+    public Course update(Course course) {
         var id = course.getCourse_id();
         courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         Course existingCourse = courseRepository.getById(id);
-        BeanUtils.copyProperties(course,existingCourse,getNullPropertyNames(course));
+        BeanUtils.copyProperties(course, existingCourse, getNullPropertyNames(course));
         //TA(Trivial Approach)- overwrite those attributes of existingCourse for which course doesn't have a null value; !!lots of If-Else statements
         return courseRepository.saveAndFlush(existingCourse);
     }
@@ -51,12 +59,12 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public static String[] getNullPropertyNames (Object source) {
+    public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
         Set<String> emptyNames = new HashSet<String>();
-        for(java.beans.PropertyDescriptor pd : pds) {
+        for (java.beans.PropertyDescriptor pd : pds) {
             Object srcValue = src.getPropertyValue(pd.getName());
             if (srcValue == null) emptyNames.add(pd.getName());
         }

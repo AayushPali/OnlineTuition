@@ -28,7 +28,6 @@ public class CourseController {
     @GetMapping
     public List<Course> list(){
         return courseService.list();
-
     }
 
     @RequestMapping("{id}")
