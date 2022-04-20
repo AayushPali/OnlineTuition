@@ -1,5 +1,7 @@
 package com.onlinetuition;
 
+import com.onlinetuition.exceptions.CourseNotFoundException;
+import com.onlinetuition.exceptions.NoDataFoundException;
 import com.onlinetuition.models.Course;
 import com.onlinetuition.repositories.CourseRepository;
 import com.onlinetuition.services.CourseService;
@@ -10,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static com.onlinetuition.services.CourseService.getNullPropertyNames;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,9 +36,22 @@ public class CourseServiceTest {
     }
 
     @Test
+    public void whenNoDataFound_thenThrowException() {
+        when(courseRepository.findAll()).thenReturn(new ArrayList<>());
+        assertThrows(NoDataFoundException.class, () -> courseService.list());
+    }
+
+    @Test
+    public void whenClassNotFound_thenThrowException() {
+        doThrow(new CourseNotFoundException(6)).when(courseRepository).findById(6);
+        assertThrows(CourseNotFoundException.class, () -> courseService.update(course));
+    }
+
+    @Test
     public void whenCourseFoundById_thenCorrect() {
         when(courseRepository.findById(any())).thenReturn(Optional.ofNullable(course));
         Course newCourse = courseService.getById(2);
+        verify(courseRepository).findById(any());
         assertEquals(newCourse.getDuration(), "5hr");
         assertEquals(newCourse.getCourse_id(), 6);
     }
