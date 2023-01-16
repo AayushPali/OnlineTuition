@@ -1,6 +1,6 @@
 # OnlineTuition
 Spring JPA WEB
-
+edit 1
 Online Tuition application to include below services (using Spring boot - REST services)
 -Service to add a course. (POST /courses)
 -Service to retrieve the list of available courses. (GET /courses/list)
